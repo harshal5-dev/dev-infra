@@ -1,0 +1,33 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: platform-dev
+servers: 1
+agents: 0
+ports:
+  # HTTP & HTTPS Ingress LoadBalancer
+  - port: 80:80
+    nodeFilters:
+      - loadbalancer
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
+  # RabbitMQ AMQP (5672) & Management Web UI (15672)
+  - port: 5672:5672
+    nodeFilters:
+      - server:0
+  - port: 15672:15672
+    nodeFilters:
+      - server:0
+  # Kafka KRaft (9092)
+  - port: 9092:9092
+    nodeFilters:
+      - server:0
+  # PostgreSQL (5432)
+  - port: 5432:5432
+    nodeFilters:
+      - server:0
+  # Redis (6379)
+  - port: 6379:6379
+    nodeFilters:
+      - server:0

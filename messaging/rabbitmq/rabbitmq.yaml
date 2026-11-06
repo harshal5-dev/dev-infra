@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  namespace: messaging
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      hostname: rabbitmq
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:4.4.0-management-alpine
+          ports:
+            - name: amqp
+              containerPort: 5672
+              hostPort: 5672
+            - name: management
+              containerPort: 15672
+              hostPort: 15672
+          envFrom:
+            - secretRef:
+                name: rabbitmq-secret
+          volumeMounts:
+            - name: rabbitmq-storage
+              mountPath: /var/lib/rabbitmq
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            tcpSocket:
+              port: 5672
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: rabbitmq-storage
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  namespace: messaging
+spec:
+  type: ClusterIP
+  selector:
+    app: rabbitmq
+  ports:
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+    - name: management
+      port: 15672
+      targetPort: 15672

@@ -1,0 +1,10 @@
+# Local Developer Book & Guides (do not push to repo)
+book/
+
+# Kubernetes Secret manifests (never commit real credentials)
+**/secret.yaml
+*.secret.yaml
+!**/secret.yaml.example
+
+# macOS system files
+.DS_Store
