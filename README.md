@@ -33,9 +33,9 @@ dev-infra/
 │   │   ├── secret.yaml.example      # Template for superuser credentials (committed)
 │   │   ├── secret.yaml              # Local superuser credentials (gitignored)
 │   │   ├── pvc.yaml                 # Database storage
-│   │   └── postgres.yaml            # PostgreSQL 16 Deployment & Service
+│   │   └── postgres.yaml            # PostgreSQL 18 Deployment & Service
 │   └── redis/
-│       └── redis.yaml               # Redis cache Deployment & Service
+│       └── redis.yaml               # Redis 8 cache Deployment & Service
 │
 └── networking/                      # Ingress & DNS routes
     └── local-ingress.yaml           # Traefik routes for Web UIs

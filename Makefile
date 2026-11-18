@@ -5,10 +5,10 @@ up:
 	k3d cluster create --config k3d-config.yaml
 	kubectl apply -f base/
 	kubectl apply -f messaging/rabbitmq/
+	kubectl apply -f databases/postgres/
+	kubectl apply -f databases/redis/
 # Uncomment the lines below as you add Kafka, PostgreSQL, and Redis in later phases:
 # kubectl apply -f messaging/kafka/
-# kubectl apply -f databases/postgres/
-# kubectl apply -f databases/redis/
 
 down:
 	k3d cluster delete platform-dev
